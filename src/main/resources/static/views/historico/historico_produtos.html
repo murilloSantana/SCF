@@ -1,0 +1,71 @@
+<div class="container-fluid">
+	<div class="row">
+		<main> <ng-include src="'/SCF/views/menu.html'"></ng-include>
+		<div class="save" >
+			<ng-include src="'/SCF/views/alertas.html'"></ng-include>
+		</div>
+		<h3 class="titulo">Tabela de Produtos Vendidos</h3>
+		<div class="qtd-objetos">
+			<label>Número por página</label> <select
+				ng-options="opcao for opcao in numeros" ng-model="pageSize">
+				<option value=""></option>
+			</select>
+		</div>
+		<table class="table table-bordered table-striped table-hover "
+			id="table-hist-prod">
+			<thead>
+				<tr>
+					<th>Nome</th>
+					<th>Quantidade</th>
+					<th>Preço Unitário</th>
+					<th>Preço Total</th>
+					<th>Data Venda</th>
+					<th class="col-md-5">
+						<div class="input-group col-md-8">
+							<input type="search" class="form-control"
+								aria-describedby="icon-pesquisar" placeholder="Pesquisar"
+								ng-model="buscar" /> <span id="icon-pesquisar"
+								class="input-group-addon"><i
+								class="glyphicon glyphicon-search"></i></span>
+						</div>
+
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					dir-paginate="vend in vendasTodos | filter:buscar | itemsPerPage: pageSize"
+					current-page="currentPage" pagination-id="vendaPagination">
+					<td>{{vend.nomeProduto}}</td>
+					<td>{{vend.quantidade}}</td>
+					<td>R$ {{vend.preco}}</td>
+					<td>R$ {{vend.precoTotal}}</td>
+					<td>{{vend.dtVenda | date:'dd/MM/yyyy'}}</td>
+					
+
+					<td>
+
+						<button class="btn btn-danger btn-xs" ng-hide="verifica"
+							ng-click="excluirProdutoHistorico(vend.id)">
+							<i class="glyphicon glyphicon-trash"></i> Excluir
+						</button>
+
+
+					</td>
+
+				</tr>
+
+			</tbody>
+		</table>
+		<div class="row">
+			<dir-pagination-controls ng-hide="carregando" class="paginacao"
+				boundary-links="true" template-url="views/dirPagination.tpl.html"
+				pagination-id="vendaPagination"></dir-pagination-controls>
+
+		</div>
+		<img class="carregando" ng-show="carregando" src="img/carregando.gif" />
+
+		</main>
+
+	</div>
+</div>

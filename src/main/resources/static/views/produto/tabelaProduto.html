@@ -1,0 +1,81 @@
+
+ 
+<ul class="nav nav-pills nav-justified tabs-produto">
+  <li role="presentation" ng-class="{active:!classeAtiva}" ><a href="" ng-click="trocarTab(false)">Produtos</a></li>
+  <li role="presentation" ng-class="{active:classeAtiva}"><a href="" ng-click="trocarTab(true)">Serviços</a></li>
+</ul>
+<table class="table table-bordered table-striped table-hover "
+	id="table-prod">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Nome</th>
+			<th>Preço</th>
+			<th class="col-md-5">
+				<div class="input-group col-md-8">
+					<input type="search" class="form-control"
+						aria-describedby="icon-pesquisar" placeholder="Pesquisar"
+						ng-model="buscar" /> <span id="icon-pesquisar"
+						class="input-group-addon"><i
+						class="glyphicon glyphicon-search"></i></span>
+				</div>
+
+			</th>
+
+		</tr>
+	</thead>
+	<tbody >
+
+		<tr
+			dir-paginate="p in listaProduto | filter:buscar | itemsPerPage: pageSize"
+			current-page="currentPage" pagination-id="prodPagination" >
+			<td>{{p.id}}</td>
+			<td ng-hide="verifica">{{p.nome}}</td>
+			<form name="prodForm">
+				<td ng-show="verifica">
+
+					<div class="form-group">
+						<input type="text" class="form-control"
+							placeholder="Nome do produto" ng-model="prod.nomeProduto" />
+					</div>
+				</td>
+				<td ng-hide="verifica">R$ {{p.preco}}</td>
+				<td ng-show="verifica">
+					<div class="form-group" >
+						<input type="text" class="form-control"
+							placeholder="Preço do produto" ng-model="prod.preco" />
+					</div>
+
+				</td>
+			</form>
+			<td>
+				<button class="btn btn-success btn-xs"
+					ng-click="verifica = !verifica;carregarEditarProd(p)" ng-hide="verifica">
+					<i class="glyphicon glyphicon-edit"></i> Editar
+				</button> &nbsp;
+				<button class="btn btn-danger btn-xs" ng-hide="verifica"
+					ng-click="excluirProduto(p)">
+					<i class="glyphicon glyphicon-trash"></i> Excluir
+				</button>
+				<button class="btn btn-primary btn-sm" ng-show="verifica"
+					ng-click="editarProduto(prod,p.id)">
+					<img src="img/salvar_edicao.png"> Salvar Alterações
+				</button>
+				<button class="btn btn-danger btn-sm" ng-show="verifica"
+					ng-click="cancelarEdicao();verifica = !verifica">
+					<img src="img/remover_edicao.png"> Cancelar
+				</button>
+			</td>
+
+		</tr>
+	</tbody>
+</table>
+<div class="row">
+	<dir-pagination-controls ng-hide="carregando" class="paginacao"
+		boundary-links="true" template-url="views/dirPagination.tpl.html"
+		pagination-id="prodPagination"></dir-pagination-controls>
+
+</div>
+
+<img class="carregando" ng-show="carregando" src="img/carregando.gif" />
+ 

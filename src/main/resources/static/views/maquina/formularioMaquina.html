@@ -1,0 +1,26 @@
+﻿
+			<form id="form-maq-cad">
+			
+				<h4><p>Cadastro De Máquina</p></h4>
+				<div class="input-group  col-md-12 ">
+			
+					<div class="form-group col-md-4">
+						<label for="numMaq">Número</label>
+						<input type="number" id="numMaq" class="form-control" min="1" placeholder="Número da máquina" ng-model="maquina.numero"/>
+					</div>
+				
+					<div class="form-group col-md-4">
+						<label for="modMaq">Modelo</label>
+						<input type="text" id="modMaq" class="form-control" placeholder="EX:(ps3,ps4)" ng-model="maquina.modelo" />
+			
+					</div>
+				
+				</div>
+			
+				<div class="input-group">
+					<div class="form-group col-md-4">
+						<button class="btn btn-info" ng-click="salvarMaquina(maquina)">Salvar</button>
+					</div>
+				</div>
+			</form>
+		

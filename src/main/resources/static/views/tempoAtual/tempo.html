@@ -1,0 +1,24 @@
+<div class="container-fluid">
+
+	<div class="row">
+
+		<main> <ng-include src="'/SCF/views/menu.html'"></ng-include>
+		<div class="save" ng-show="saved">
+			<ng-include src="'/SCF/views/alertas.html'"></ng-include>
+		</div>
+		<ng-include src="'/SCF/views/tempoAtual/formProdTempo.html'"></ng-include>
+		<div class="save" ng-show="!saved">
+			<ng-include src="'/SCF/views/alertas.html'"></ng-include>
+		</div>
+		<ng-include src="'/SCF/views/tempoAtual/tabelaTempo.html'"></ng-include>
+
+
+
+
+
+		</main>
+	</div>
+
+
+
+</div>

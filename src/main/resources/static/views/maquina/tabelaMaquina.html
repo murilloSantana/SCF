@@ -1,0 +1,64 @@
+
+<table class="table table-bordered table-striped table-hover "
+	id="table-maq">
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Número</th>
+			<th>Modelo</th>
+			<th></th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="m in listaMaquina">
+			<td>{{m.id}}</td>
+
+			<td ng-hide="verifica">{{m.numero}}</td>
+			<form name="maqForm">
+				<td ng-show="verifica">
+
+
+					<div class="form-group">
+						<input type="number" class="form-control "
+							placeholder="modifique o número" min="1" ng-model="maq.numero" />
+					</div>
+				</td>
+
+				<td ng-hide="verifica">{{m.modelo}}</td>
+				<td ng-show="verifica">
+					<div class="form-group">
+						<input type="text" class="form-control"
+							placeholder="modifique o modelo" ng-model="maq.modelo" />
+					</div>
+
+				</td>
+			</form>
+
+			<td>
+				<button class="btn btn-success btn-xs"
+					ng-click="verifica = !verifica;carregarEditarMaq(m)"
+					ng-hide="verifica">
+					<i class="glyphicon glyphicon-edit"></i> Editar
+				</button> &nbsp;
+				<button class="btn btn-danger btn-xs" ng-hide="verifica"
+					ng-click="excluirMaquina(m)">
+					<i class="glyphicon glyphicon-trash"></i> Excluir
+				</button>
+				<button class="btn btn-primary btn-sm" ng-show="verifica"
+					ng-click="editarMaquina(maq,m.id)">
+					<img src="img/salvar_edicao.png"> Salvar Alterações
+				</button>
+				<button class="btn btn-danger btn-sm" ng-show="verifica"
+					ng-click="cancelarEdicao();verifica = !verifica">
+					<img src="img/remover_edicao.png"> Cancelar
+				</button>
+			</td>
+
+		</tr>
+
+	</tbody>
+</table>
+
+<img class="carregando" ng-show="carregando" src="img/carregando.gif" />

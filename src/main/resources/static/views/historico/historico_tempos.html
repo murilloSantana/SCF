@@ -1,0 +1,69 @@
+<div class="container-fluid">
+	<div class="row">
+		<main> <ng-include src="'/SCF/views/menu.html'"></ng-include>
+		<div class="save" >
+			<ng-include src="'/SCF/views/alertas.html'"></ng-include>
+		</div>
+		<h3 class="titulo">Tabela de Tempos Vendidos</h3>
+		<div class="qtd-objetos">
+			<label>Número por página</label> <select
+				ng-options="opcao for opcao in numeros" ng-model="pageSize"></select>
+		</div>
+		
+		<table class="table table-bordered table-striped table-hover "
+			id="table-hist-temp">
+			<thead>
+				<tr>
+					<th>Número da Máquina</th>
+					<th>Minutos</th>
+					<th>Data</th>
+					<th>Hora Inicio</th>
+					<th>Hora Fim</th>
+					<th>Valor</th>
+					<th class="col-md-5">
+						<div class="input-group col-md-8">
+							<input type="search" class="form-control"
+								aria-describedby="icon-pesquisar" placeholder="Pesquisar"
+								ng-model="buscar" /> <span id="icon-pesquisar"
+								class="input-group-addon"><i
+								class="glyphicon glyphicon-search"></i></span>
+						</div>
+
+					</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr
+					dir-paginate="temp in temposTodos | filter:buscar | itemsPerPage: pageSize"
+					current-page="currentPage" pagination-id="tempoPagination">
+					<td>{{temp.numeroMaquina}}</td>
+					<td>{{temp.minutos}}</td>
+					<td>{{temp.horaInicio | date:'dd/MM/yyyy'}}</td>
+					<td>{{temp.horaInicio |  date:"HH:mm:ss"}}</td>
+					<td>{{temp.horaFim |  date:"HH:mm:ss"}}</td>
+					<td>R$ {{temp.valor}}</td>
+					<td>
+
+						<button class="btn btn-danger btn-xs" ng-hide="verifica"
+							ng-click="excluirTempoHistorico(temp.id)">
+							<i class="glyphicon glyphicon-trash"></i> Excluir
+						</button>
+
+
+					</td>
+
+				</tr>
+
+			</tbody>
+		</table>
+		<dir-pagination-controls ng-hide="carregando" class="paginacao"
+			boundary-links="true" template-url="views/dirPagination.tpl.html"
+			pagination-id="tempoPagination"></dir-pagination-controls> <img
+			class="carregando" ng-show="carregando" src="img/carregando.gif" />
+
+		</main>
+
+	</div>
+</div>

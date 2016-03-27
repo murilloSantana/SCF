@@ -1,0 +1,39 @@
+
+<form id="form-valor">
+	
+
+	<h4>
+		<p>Cadastro De Valores</p>
+	</h4>
+	<div class="input-group  col-md-12 ">
+
+		<div class="form-group col-md-4">
+			<label for="tempoMin">Tempo(em minutos)</label> <input type="number"
+				id="tempoMin" class="form-control" min="1"
+				placeholder="tempo em minutos" ng-model="valorHora.minuto" />
+		</div>
+
+		<div class="form-group col-md-4">
+			<label for="tempoValor">Modelo</label> <select class="form-control"
+				ng-model="modelo"
+				ng-options="vhModelo for vhModelo in listaModelo">
+				<option value="">Selecione um modelo</option>
+			</select>
+		</div>
+
+
+		<div class="form-group col-md-4">
+			<label for="tempoValor">Valor</label> <input type="text"
+				id="tempoValor" class="form-control" 
+				placeholder="EX:(2.50 ou 0.50)..." ng-model="valorHora.preco" />
+
+		</div>
+	</div>
+
+	<div class="input-group">
+		<div class="form-group col-md-4">
+			<button class="btn btn-info" ng-click="salvarHora(valorHora,modelo)">
+				Salvar</button>
+		</div>
+	</div>
+</form>

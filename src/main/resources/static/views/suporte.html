@@ -1,0 +1,41 @@
+<div class="container-fluid">
+
+	<div class="row">
+
+		<main> <ng-include src="'/SCF/views/menu.html'"></ng-include>
+		<h3 class="titulo">Formulário de Mensagem</h3>
+		<h6 class="subtitulo ">É necessário ter internet para enviar o formulário</h6>
+		<div class="form-erro">
+			<div class="col-md-8 input-group ">
+				<div class="form-group col-md-12">
+					<label>Tipo</label> <select class="form-control"
+						ng-model="tipoSelecionado" ng-options="tipo for tipo in tipos">
+						<option value="">Selecione o Assunto</option>
+					</select>
+				</div>
+				<div class="form-group col-md-12">
+					<label>Informe o Erro</label> &nbsp;&nbsp; <a
+						uib-popover="Informe o motivo do contato. Precisamos saber o que está havendo e o local que 
+						encontrou problemas para que possamos ajustar. Caso tenha sugestões de melhorias, dúvidas ou 
+						críticas, ficaremos felizes em saber"
+						popover-trigger="mouseenter" popover-placement="right"><i
+						class="glyphicon glyphicon-question-sign alert-info"></i></a>
+					
+					<textarea rows="10" cols="50" class="form-control"
+						ng-model="infoErro" maxLength="500"></textarea>
+				</div>
+				<div class="form-group col-md-12">
+					<button class="btn btn-primary" ng-click="enviarMensagem(tipoSelecionado,infoErro)">Enviar</button>
+					Máx {{500 - infoErro.length}}
+				</div>
+			</div>
+
+		</div>
+
+
+		</main>
+	</div>
+
+
+
+</div>

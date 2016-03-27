@@ -1,0 +1,113 @@
+<div class="row btn-tempo">
+	<button class="btn btn-info" ng-click="fecharFormulario('tempo',formTempo)">
+		<i class="glyphicon glyphicon-time "> </i> Adicionar Tempo
+	</button>
+</div>
+
+<div ng-show="isTempo">
+	<form id="form-tempo" name="formTempo">
+
+		<h4>
+			<p>Adicionar Tempo</p>
+		</h4>
+		<div class="row tempo-livre">
+				<input type="checkbox" ng-model="livre"/>Tempo Livre
+			</div>
+		<div class="input-group  col-md-12 ">
+			
+			<div class="form-group col-md-3">
+				<label> Máquina </label> <select name="" id="" class="form-control"
+					ng-model="maquinaSelecionada" ng-change="selectValorHora(maquinaSelecionada.modelo)"
+					ng-options="lm.numero for lm in listaMaquina">
+					<option value="">Selecione uma maquina</option>
+				</select>
+			</div>
+
+			<div class="form-group col-md-3" ng-hide="livre">
+				<label> tempo </label> <select ng-model="lhSelecionada"
+					class="form-control" ng-options="vh.minuto for vh in valorHoraSelecionada">
+					<option value="">Selecione um tempo</option>
+				</select>
+
+			</div>
+
+			<div class="form-group col-md-3">
+
+				<label> Modelo </label> <input class="form-control"
+					placeholder="Modelo" ng-model="maquinaSelecionada.modelo" disabled />
+		
+			</div>
+			<div class="form-group col-md-3" ng-hide="livre">
+
+				<label> Preço </label> <input type="text" class="form-control"
+					placeholder="Preço" ng-model="lhSelecionada.preco" disabled />
+
+			</div>
+			
+		</div>
+
+		<div class="input-group">
+			<div class="form-group col-md-4">
+				<button class="btn btn-info"
+					ng-click="salvarNovoTempo(maquinaSelecionada,lhSelecionada,livre)">Salvar</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+
+<div class="row btn-produto">
+	<button class="btn btn-info" ng-click="fecharFormulario('produto')">
+		<i class="glyphicon glyphicon-shopping-cart "> </i> Adicionar Produto
+	</button>
+</div>
+
+
+<div ng-show="isProduto">
+	<form id="form-prod">
+
+		<h4>
+			<p>Adicionar Produto</p>
+		</h4>
+		<div class="input-group  col-md-12 ">
+
+			<div class="form-group col-md-3">
+				<label> Máquina </label> <select name="" id="" class="form-control"
+					ng-change="mudarBtnVenda(maqProdSelec)" ng-model="maqProdSelec"
+					ng-options="lm.numero for lm in listaFiltrada">
+					<option value="">Selecione uma maquina</option>
+				</select>
+
+			</div>
+
+			<div class="form-group col-md-3">
+				<label> Produto </label> 
+				<input type="text" ng-model="selected" uib-typeahead="lp as lp.nome for lp in listaProduto | filter:$viewValue | limitTo:8"
+					class="form-control">
+
+			</div>
+
+			<div class="form-group col-md-3">
+				<label> Quantidade </label> <input type="number" class="form-control"
+					placeholder="Quantidade do produto" ng-model="quantidade" min="1" />
+
+			</div>
+			
+			<div class="form-group col-md-3">
+				<label> Preço </label> <input type="text" class="form-control"
+					placeholder="Preço do produto" ng-model="selected.preco" disabled />
+
+			</div>
+		</div>
+
+		<div class="input-group">
+			<div class="form-group col-md-4">
+				<button class="btn btn-info"
+					ng-click="salvarVendaProduto(quantidade,selected)" ng-show="btnVenda">Salvar</button>
+				<button class="btn btn-info"
+					ng-click="salvarVendaMaquina(maqProdSelec,selected,quantidade)" ng-hide="btnVenda">Salvar</button>
+
+			</div>
+		</div>
+	</form>
+</div>

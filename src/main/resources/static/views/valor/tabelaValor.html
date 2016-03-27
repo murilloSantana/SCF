@@ -1,0 +1,52 @@
+<table class="table table-bordered table-striped table-hover " id="table-valor">
+	<thead>
+		<tr> 
+			<th>Id</th>
+			<th>Minutos</th>
+			<th>Modelo</th>
+			<th>Preço</th>
+			<th></th>
+								
+		</tr>
+	</thead>
+	<tbody>
+	
+			<tr ng-repeat="vh in listaHora">
+			<td>{{vh.id}}</td>
+			<td ng-show="verifica">
+			<div class="form-group" >
+					<input type="number" class="form-control "
+						placeholder="modifique os minutos" min="1" ng-model="v.minuto" />
+				</div>
+			</td>
+			
+			<td ng-hide="verifica">{{vh.minuto}}</td>
+			
+			<td ng-show="verifica">
+			<div class="form-group" >
+					<input type="text" class="form-control "
+						placeholder="modifique o modelo"  ng-model="v.modelo" />
+				</div>
+			</td>
+			<td ng-hide="verifica">{{vh.modelo}}</td>
+			
+			<td ng-show="verifica">
+			<div class="form-group" >
+					<input type="text" class="form-control "
+						placeholder="modifique o preço"  ng-model="v.preco" />
+				</div>
+			</td>
+			<td ng-hide="verifica">R$ {{vh.preco}}</td>
+			
+			<td>
+					<button class="btn btn-success btn-xs" ng-click="verifica = !verifica;carregarEditarValor(vh)" ng-hide="verifica"><i class="glyphicon glyphicon-edit"></i> Editar</button> 
+			  &nbsp;<button class="btn btn-danger btn-xs" ng-hide="verifica" ng-click="excluirHora(vh)"><i class="glyphicon glyphicon-trash"></i> Excluir</button>			
+			  <button class="btn btn-primary btn-sm" ng-show="verifica" ng-click="editarHora(v,vh.id)"><img src="img/salvar_edicao.png"> Salvar Alterações</button>
+			  <button class="btn btn-danger btn-sm" ng-show="verifica" ng-click="cancelarEdicao();verifica = !verifica"><img src="img/remover_edicao.png"> Cancelar</button>
+			</td>
+			
+		</tr>
+	</tbody>
+</table>
+
+<img class="carregando" ng-show="carregando" src="img/carregando.gif"/>

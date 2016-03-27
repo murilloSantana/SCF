@@ -1,0 +1,190 @@
+
+<table class="table table-bordered table-striped table-hover "
+	id="table-tempo">
+	<thead>
+		<tr>
+			<th>Número Máquina</th>
+			<th>Total Minutos</th>
+			<th>Tempo de Início</th>
+			<th>Tempo de Término</th>
+			<th>Preço Produtos</th>
+			<th>Preço Tempos</th>
+			<th>Valor total</th>
+			<th>Faltando</th>
+			<th></th>
+
+		</tr>
+	</thead>
+	<tbody ng-repeat="tp in listaTemposAtivos">
+		<tr ng-class="{fimTempo:tp['7']}">
+			<td>{{tp['0']}}</td>
+			<td>{{tp['1']}}</td>
+			<td>{{tp['2'] | date:"HH:mm:ss"}}</td>
+			<td>{{tp['3'] | date:"HH:mm:ss"}}</td>
+			<td>R$ {{tp['5']}} <a
+				ng-click="listarProdutoIndividual(tp['0']);mostrarSubItemProduto = !mostrarSubItemProduto "><img
+					alt="" src="img/lista_produtos.png"></a>
+			</td>
+
+			<td ng-hide="tp['1']==0">R$ {{tp['4']}} <a
+				ng-click="listarTempoIndividual(tp['0']);mostrarSubItemTempo = !mostrarSubItemTempo "><img
+					alt="" src="img/lista_tempos.png"></a>
+
+			</td>
+			<td ng-show="tp['1']==0">
+				<div class="form-group col-md-2">
+					<input type="text" ng-model="precoLivre"/>
+				</div>
+			</td>
+			<td>R$ {{tp['5'] + tp['4'] }}</td>
+			<td ng-hide="tp['8'] || tp['1']==0">{{tp['3'] - horaAtual - 79200000|
+				date:"HH:mm:ss"}}</td>
+				<td ng-show="tp['1']==0"> {{   horaAtual - tp['2'] - 79200000|
+				date:"HH:mm:ss"}}</td>
+			<td ng-show="tp['8']">{{mensagemFim}}</td>
+			<td>
+				
+			<button class="btn btn-info btn-xs"
+					ng-click="fecharConta(tp['0'],precoLivre,tp['1'])">
+					<i class="glyphicon glyphicon-usd"></i> Fechar Conta
+				</button>
+				
+				<button class="btn btn-danger btn-xs"
+					ng-click="excluirTemposAtivos(tp['0'])">
+					<i class="glyphicon glyphicon-trash"></i> Excluir Tudo
+				</button></td>
+
+
+		</tr>
+		<tr ng-show="mostrarSubItemTempo " class="sub-item">
+			<td colspan="10">
+				<h4>Lista De Tempos</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Minutos</th>
+							<th>Hora de Início</th>
+							<th>Hora de Término</th>
+							<th>Valor</th>
+							<th></th>
+							
+						</tr>
+					</thead>
+					<tbody ng-repeat="subItem in tp['9']"
+						ng-init="subItemIndex=$index;ultimo=$last">
+						<tr>
+							<td ng-show="verifica">
+								<div class="form-group" >
+									<select ng-model="subEdit"
+										class="form-control" ng-options="lh.minuto for lh in listaHora">
+										<option value="">Selecione um tempo</option>
+									</select>
+								</div>
+
+							</td>
+							<td ng-hide="verifica">{{subItem.minutos}}</td>
+							
+							<td>{{subItem.horaInicio | date:"HH:mm:ss"}}</td>
+							<td>{{subItem.horaFim | date:"HH:mm:ss"}}</td>
+							
+							<td ng-show="verifica">
+								<div class="form-group" >
+									<input type="text" class="form-control"
+									placeholder="Valor" ng-model="subEdit.preco" disabled/>
+								</div>
+
+							</td>
+							<td ng-hide="verifica">R$ {{subItem.valor}}</td>
+							<td ng-show="ultimo">
+								<button class="btn btn-success btn-xs" ng-hide="verifica"
+									ng-click="verifica = !verifica;" >
+									<i class="glyphicon glyphicon-edit"></i>Editar
+								</button>
+								<button class="btn btn-danger btn-xs" ng-hide="verifica"
+									ng-click="excluirTempoIndividual(subItem.id,subItem)">
+									<i class="glyphicon glyphicon-trash"></i>Excluir
+								</button> 
+								<button class="btn btn-primary btn-sm" ng-show="verifica"
+									ng-click="verifica=!verifica;salvarTempoEditado(subItem,subEdit)" >
+								<img src="img/salvar_edicao.png"> Salvar Alterações
+								</button>
+								<button class="btn btn-danger btn-sm" ng-show="verifica"
+								ng-click="cancelarEdicao();verifica = !verifica" >
+								<img src="img/remover_edicao.png"> Cancelar
+								</button>
+							</td>
+							<td ng-hide="ultimo">
+							
+								<button class="btn btn-danger btn-xs" ng-hide="verifica"
+									ng-click="excluirTempoIndividual(subItem.id,subItem)">
+									<i class="glyphicon glyphicon-trash"></i>Excluir
+								</button> 
+								
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+
+			</td>
+		</tr>
+		<tr ng-show="mostrarSubItemProduto" class="sub-item">
+			<td colspan="10">
+				<h4>Lista De Produtos</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Hora da Venda</th>
+							<th>Preço</th>
+							<th>Quantidade</th>
+							<th></th>
+							
+						</tr>
+					</thead>
+					<tbody ng-repeat="subItemProd in tp['10']">
+						<tr>
+						
+							<td >{{subItemProd.nomeProduto}}</td>
+							
+							<td>{{subItemProd.dtVenda | date:"HH:mm:ss"}}</td>
+							<td>R$ {{subItemProd.preco}}</td>
+							
+							<td ng-show="verifica">
+								<div class="form-group" >
+									<input type="text" class="form-control"
+									placeholder="Quantidade" ng-model="subEditProd.quantidade" />
+								</div>
+
+							</td>
+							<td ng-hide="verifica">{{subItemProd.quantidade}}</td>
+							<td >
+								<button class="btn btn-success btn-xs" ng-hide="verifica"
+									ng-click="verifica = !verifica;" >
+									<i class="glyphicon glyphicon-edit"></i>Editar
+								</button>
+								<button class="btn btn-danger btn-xs" ng-hide="verifica"
+									ng-click="excluirProdutoIndividual(subItemProd.id,subItemProd)">
+									<i class="glyphicon glyphicon-trash"></i>Excluir
+								</button> 
+								<button class="btn btn-primary btn-sm" ng-show="verifica"
+									ng-click="verifica=!verifica;salvarProdutoEditado(subItemProd,subEditProd)" >
+								<img src="img/salvar_edicao.png"> Salvar Alterações
+								</button>
+								<button class="btn btn-danger btn-sm" ng-show="verifica"
+								ng-click="cancelarEdicao();verifica = !verifica" >
+								<img src="img/remover_edicao.png"> Cancelar
+								</button>
+							</td>
+							
+						</tr>
+					</tbody>
+
+				</table>
+
+			</td>
+		</tr>
+	</tbody>
+
+
+</table>
