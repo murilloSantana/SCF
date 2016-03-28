@@ -119,4 +119,11 @@ public class ProdutoVendaController {
 	public @ResponseBody List<Venda> listarVendas(){
 		return (List<Venda>) vendaDao.findAll();
 	}
+	
+	@RequestMapping(value = "pagamentoVenda/{idProduto}", method = RequestMethod.PUT)
+	public void pagamentoVenda(@PathVariable("idProduto") Integer idProduto) {
+		Venda venda = vendaDao.efetuarPagamentoVenda(idProduto);
+			venda.setPago(true);
+			vendaDao.save(venda);
+	}
  }

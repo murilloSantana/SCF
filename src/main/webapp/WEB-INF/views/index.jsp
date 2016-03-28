@@ -9,6 +9,8 @@
 <script src="js/libs/angular.js"></script>
 <script src="js/libs/angular-route.js"></script>
 <script src="js/libs/angular-ui-router.js"></script>
+<script src="js/libs/angular-cookies.min.js"></script>
+
 <script src="js/libs/angular-animate.min.js"></script>
 <script src="js/libs/ui-bootstrap-tpls-0.14.3.min.js"></script>
 

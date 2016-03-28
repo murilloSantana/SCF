@@ -270,6 +270,12 @@ public class MaquinaTempoController {
 	public @ResponseBody List<Tempo> listarTempos() {
 		return (List<Tempo>) tempoDao.findAll();
 	}
-	
+
+	@RequestMapping(value = "pagamentoTempo/{idTempo}", method = RequestMethod.PUT)
+	public void pagamentoTempo(@PathVariable("idTempo") Integer idTempo) {
+		Tempo tempo = tempoDao.efetuarPagamentoTempo(idTempo);
+			tempo.setPago(true);
+			tempoDao.save(tempo);
+	}
 	
 }

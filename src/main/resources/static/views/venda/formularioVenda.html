@@ -1,0 +1,64 @@
+<form id="form-venda">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Realizar Venda</div>
+			<div class="panel-body">
+
+				<div class="form-group col-md-4">
+					<label>Nome</label> <input type="text" ng-model="prodSelec"
+						uib-typeahead="lp as lp.nome for lp in listaProduto | filter:$viewValue | limitTo:8"
+						class="form-control" placeholder="Nome do produto">
+				</div>
+
+				<div class="form-group col-md-4">
+					<label>Quantidade</label> <input type="number" min="1"
+						class="form-control" placeholder="Quantidade do produto"
+						ng-model="qtdProd" />
+				</div>
+
+				<div class="form-group col-md-4">
+
+					<button class="btn btn-primary"
+						ng-click="addListaVenda(prodSelec,qtdProd)">Adicionar à
+						Venda</button>
+
+				</div>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Quantidade</th>
+							<th>Preço Unitário</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="l in listaVendaTemporaria">
+							<td>{{l.nome}}</td>
+							<td>{{l.quantidade}}</td>
+							<td>{{l.preco}}</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<th>Total:</th>
+						<th>R$ {{valorTotal}}</th>
+					</tfoot>
+				</table>
+
+
+				<div class="form-group col-md-3">
+					<button class="btn btn-success btn-block">Concluir Venda</button>
+				</div>
+				<div class="form-group col-md-3">
+					<button class="btn btn-danger btn-block" ng-click="cancelarVenda()">Cancelar Venda</button>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+
+</form>

@@ -19,4 +19,7 @@ public interface RepositoryVendaDAO extends CrudRepository<Venda, Integer>{
 	public List<Venda> getVendaProduto(@Param("id") Integer id);
 	@Query(value = "SELECT v FROM Venda v WHERE v.usada = true AND v.maquina.numero = :numero")
 	public List<Venda> listaConta(@Param("numero") Integer numero);
+	@Query(value = "SELECT v FROM Venda v WHERE v.id = :id")
+	public Venda efetuarPagamentoVenda(@Param("id") Integer id);
+	
 }

@@ -33,4 +33,8 @@ public interface RepositoryTempoDAO extends CrudRepository<Tempo, Integer> {
 
 	@Query(value = "SELECT t FROM Maquina m, Tempo t WHERE t.maquina.id = :id")
 	public List<Tempo> getTempoMaquina(@Param("id") Integer id);
+	
+	@Query(value = "SELECT t FROM Tempo t WHERE t.id = :id")
+	public Tempo efetuarPagamentoTempo(@Param("id") Integer id);
+	
 }

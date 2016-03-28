@@ -1,4 +1,4 @@
-app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAPI,valorHoraAPI,tempoAPI,$timeout,$interval,$compile)
+app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAPI,valorHoraAPI,tempoAPI,$timeout,$interval,$compile,$cookieStore)
 	{
 		$scope.isProduto = false;
 		$scope.isTempo = false;
@@ -86,11 +86,12 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			tempoAPI.listarTemposAtivos().success(function(response){
 				$timeout(function(){
 					$scope.listaTemposAtivos = response;
+					console.log(response);
 					$scope.listaTemposAtivos.forEach(function(lt){
 						// $scope.numeroFiltro = lt['0'];
 						var data = new Date();
-						lt['7'] = false;
-						lt['8'] = false;
+						lt['20'] = false;
+						lt['21'] = false;
 						$scope.horaBanco = data.setTime(lt['3']);
 						if(lt['5'] == null || lt['5'] == undefined){
 							lt['5'] = 0;	
@@ -121,8 +122,8 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 						$scope.horaBanco = data.setTime(lt['3']);
 						
 						if(($scope.horaBanco - $scope.horaAtual - 79200000) < - 79200000 && lt['1']!= 0){
-							lt['7'] = !lt['7'];
-							if(!lt['8']){
+							lt['20'] = !lt['20'];
+							if(!lt['21']){
 								$scope.editarTempoUsado(lt['3']);
 							
 								if (Notification.permission !== "granted")
@@ -144,7 +145,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 								 
 							}
 							
-							lt['8'] = true;
+							lt['21'] = true;
 							$scope.mensagemFim = "Fim do tempo";
 							
 							
@@ -881,6 +882,28 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			}
 		};
 		
+		$scope.pagamentoTempo = function(idTempo){
+			var confirmacao = window.confirm("Deseja confirmar este pagamento?");
+			if(confirmacao){
+				tempoAPI.pagamentoTempo(idTempo).success(function(response){
+					$scope.listarTemposAtivos();
+					$scope.listarVendas();
+					$scope.listarTempos();
+				});
+			}
+		};
+		
+		$scope.pagamentoVenda = function(idProduto){
+			var confirmacao = window.confirm("Deseja confirmar este pagamento?");
+			if(confirmacao){
+				produtoAPI.pagamentoVenda(idProduto).success(function(response){
+					$scope.listarTemposAtivos();
+					$scope.listarVendas();
+					$scope.listarTempos();
+				});
+			}
+		};
+		
 		$scope.limpaForm = function(){
 				$scope.maquina.modelo = null;
 		    	$scope.maquina.numero = null;
@@ -920,6 +943,39 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			});
 		};
 	
+		$scope.addListaVenda = function(prod,qtd){
+			$scope.listaVendaTemporaria=[];
+				
+			if($cookieStore.get('listaCookie') != null){
+				$scope.listaVendaTemporaria = JSON.parse($cookieStore.get('listaCookie'));
+			}
+			prod['quantidade'] = qtd;
+			$scope.listaVendaTemporaria.push(prod);
+			$cookieStore.put('listaCookie',JSON.stringify($scope.listaVendaTemporaria));
+			$scope.listarCookie();
+			
+		};
+		$scope.listarCookie = function(){
+			var resultadoParcial=0;
+			var somaTotal=0;
+			if($cookieStore.get('listaCookie') != null){
+				$scope.listaVendaTemporaria = JSON.parse($cookieStore.get('listaCookie'));
+
+				$scope.listaVendaTemporaria.forEach(function(lvt){
+					resultadoParcial = lvt.quantidade * lvt.preco;
+					somaTotal += resultadoParcial;
+				});
+			}
+			
+			
+			$scope.valorTotal = somaTotal;
+		};
+		$scope.cancelarVenda = function(){
+			$scope.listaVendaTemporaria=[];
+			$cookieStore.remove('listaCookie');
+			$scope.listarCookie();
+		};
+		
 		// carregar dados para edição nos inputs
 		$scope.carregarEditarProd = function(p){
 			$scope.prod = p;
@@ -952,7 +1008,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			$scope.listarHora();
 		}
 	
-		
+		$scope.listarCookie();
 		$scope.listasCarregadas();
 	
 	});

@@ -44,7 +44,9 @@ app.factory('tempoAPI', function($http) {
 	var _salvarTempoLivre = function(id,tempo){
 		return $http.post("salvarTempoLivre/"+id,tempo);
 	};
-	
+	var _pagamentoTempo = function(idTempo){
+		return $http.put("pagamentoTempo/"+idTempo)
+	};
 	return {
 		listarTemposAtivos : _listarTemposAtivos,
 		salvarTempo : _salvarTempo,
@@ -59,6 +61,7 @@ app.factory('tempoAPI', function($http) {
 		excluirTempoIndividual: _excluirTempoIndividual,
 		listarTempos: _listarTempos,
 		salvarTempoLivre: _salvarTempoLivre,
-		listarTempoLivre: _listarTempoLivre
+		listarTempoLivre: _listarTempoLivre,
+		pagamentoTempo:_pagamentoTempo
 	};
 });

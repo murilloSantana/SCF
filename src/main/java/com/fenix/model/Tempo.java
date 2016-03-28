@@ -26,10 +26,19 @@ public class Tempo {
 	private Long horaFim;
 	@Column
 	private Integer numeroMaquina;
-
+	@Column
+	private Boolean pago;
 	@ManyToOne
 	@JoinColumn(name = "maquina_id")
 	private Maquina maquina;
+
+	public Boolean getPago() {
+		return pago;
+	}
+
+	public void setPago(Boolean pago) {
+		this.pago = pago;
+	}
 
 	public Maquina getMaquina() {
 		return maquina;

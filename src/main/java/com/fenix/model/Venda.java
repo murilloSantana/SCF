@@ -32,7 +32,18 @@ public class Venda {
 	private String nomeProduto;
 	@Column
 	private Integer numeroMaquina;
+	@Column
+	private Boolean pago;
 	
+	
+	public Boolean getPago() {
+		return pago;
+	}
+
+	public void setPago(Boolean pago) {
+		this.pago = pago;
+	}
+
 	public Integer getNumeroMaquina() {
 		return numeroMaquina;
 	}

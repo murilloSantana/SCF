@@ -1,1 +1,1 @@
-var app = angular.module("app",["ngRoute","ui.router","ui.bootstrap","angularUtils.directives.dirPagination"]);
+var app = angular.module("app",["ngRoute","ui.router","ngCookies","ui.bootstrap","angularUtils.directives.dirPagination"]);

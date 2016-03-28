@@ -11,5 +11,7 @@ app.config(function($stateProvider,$urlRouterProvider,$locationProvider){
 	.state("historico-tempos",{url:"/historico-tempos",templateUrl:"views/historico/historico_tempos.html",controller:"controller"})
 	.state("historico-produtos",{url:"/historico-produtos",templateUrl:"views/historico/historico_produtos.html",controller:"controller"})
 	.state("suporte",{url:"/suporte-tecnico",templateUrl:"views/suporte.html",controller:"controller"})
+	.state("venda",{url:"/venda",templateUrl:"views/venda/venda.html",controller:"controller"})
+
 	$locationProvider.html5Mode(true);
 });
