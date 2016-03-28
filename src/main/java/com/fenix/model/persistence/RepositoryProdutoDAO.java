@@ -13,5 +13,7 @@ public interface RepositoryProdutoDAO extends CrudRepository<Produto,Integer>{
 
 	@Query(value="SELECT p FROM Produto p WHERE p.nome = :nome AND p.id <> :id")
 	public List<Produto> findNome(@Param("nome") String nome,@Param("id") Integer id);
+	@Query(value="SELECT p FROM Produto p WHERE p.tipo = :tipo")
+	public List<Produto> listarProduto(@Param("tipo") String tipo);
 
 }

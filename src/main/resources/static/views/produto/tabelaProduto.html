@@ -10,6 +10,7 @@
 		<tr>
 			<th>Id</th>
 			<th>Nome</th>
+			<th>Tipo</th>
 			<th>Preço</th>
 			<th class="col-md-5">
 				<div class="input-group col-md-8">
@@ -36,9 +37,13 @@
 
 					<div class="form-group">
 						<input type="text" class="form-control"
-							placeholder="Nome do produto" ng-model="prod.nomeProduto" />
+							placeholder="Nome do produto" ng-model="prod.nome" />
 					</div>
 				</td>
+				<td ng-hide="verifica">{{p.tipo}}</td>
+				<td ng-show="verifica">
+					<select class="form-control" ng-model="prod.tipo" ng-options="tp for tp in tipoProduto"></select>
+				 </td>
 				<td ng-hide="verifica">R$ {{p.preco}}</td>
 				<td ng-show="verifica">
 					<div class="form-group" >

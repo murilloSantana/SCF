@@ -18,7 +18,7 @@
 
 				<div class="form-group col-md-4">
 
-					<button class="btn btn-primary"
+					<button class="btn btn-primary btn-add"
 						ng-click="addListaVenda(prodSelec,qtdProd)">Adicionar à
 						Venda</button>
 
@@ -30,6 +30,7 @@
 							<th>Nome</th>
 							<th>Quantidade</th>
 							<th>Preço Unitário</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,6 +38,10 @@
 							<td>{{l.nome}}</td>
 							<td>{{l.quantidade}}</td>
 							<td>{{l.preco}}</td>
+							<td>
+								<button class="btn btn-warning" ng-click="removerListaVenda($index)">Remover da Lista</button>
+
+							</td>
 						</tr>
 					</tbody>
 					<tfoot>
@@ -47,10 +52,11 @@
 
 
 				<div class="form-group col-md-3">
-					<button class="btn btn-success btn-block">Concluir Venda</button>
+					<button class="btn btn-success btn-block" ng-click="salvarVendaProduto()">Concluir Venda</button>
 				</div>
 				<div class="form-group col-md-3">
-					<button class="btn btn-danger btn-block" ng-click="cancelarVenda()">Cancelar Venda</button>
+					<button class="btn btn-danger btn-block" ng-click="cancelarVenda()">Cancelar
+						Venda</button>
 				</div>
 			</div>
 		</div>

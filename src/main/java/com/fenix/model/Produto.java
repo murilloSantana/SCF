@@ -14,7 +14,8 @@ public class Produto {
 	private String nome;
 	@Column
 	private Double preco;
-
+	@Column
+	private String tipo;
 	public Integer getId() {
 		return id;
 	}
@@ -37,6 +38,14 @@ public class Produto {
 
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }

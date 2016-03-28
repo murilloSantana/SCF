@@ -34,11 +34,16 @@ public class ProdutoVendaController {
 		produtoDao.save(produto);
 	}
 
-	@RequestMapping(value = "listarProduto", method = RequestMethod.GET)
-	public @ResponseBody List<Produto> listarProduto() {
+	@RequestMapping(value = "listarProduto/{tipo}", method = RequestMethod.GET)
+	public @ResponseBody List<Produto> listarProduto(@PathVariable("tipo") String tipo) {
+		return produtoDao.listarProduto(tipo);
+	}
+	
+	@RequestMapping(value = "listarTodosProdutos", method = RequestMethod.GET)
+	public @ResponseBody List<Produto> listarTOdosProdutos() {
 		return (List<Produto>) produtoDao.findAll();
 	}
-
+	
 	@RequestMapping(value = "excluirProduto/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody void excluirProduto(@PathVariable("id") Integer id) {
 		try {

@@ -295,22 +295,40 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 		};
 		
 		// Crud de produtos
-		
-		$scope.listarProduto = function(){
-		produtoAPI.listarProduto().success(function(response){
-				$timeout(function(){
-					$scope.carregando = false;
-					$scope.listaProduto = response;
-					console.log(response);	
-				},1000);
-			}).error(function(){
-				alert("erro ao carregar a lista de produtos");
+		$scope.listarTodosProdutos = function(){
+			produtoAPI.listarTodosProdutos().success(function(response){
+				$scope.listaProduto = response;
 			});
+		}
+		$scope.listarProduto = function(){
+			if($scope.classeAtiva){
+				produtoAPI.listarProduto("Serviço").success(function(response){
+					$timeout(function(){
+						$scope.carregando = false;
+						$scope.listaProduto = response;
+						console.log(response);	
+					},1000);
+				}).error(function(){
+					alert("erro ao carregar a lista de produtos");
+				});	
+			}else{
+				produtoAPI.listarProduto("Produto").success(function(response){
+					$timeout(function(){
+						$scope.carregando = false;
+						$scope.listaProduto = response;
+						console.log(response);	
+					},1000);
+				}).error(function(){
+					alert("erro ao carregar a lista de produtos");
+				});
+		
+			}
+			
 		}
 		
 		
 		$scope.salvarProduto = function(produto){
-			var produtos = {"nome":produto.nome,"preco":produto.preco};
+			var produtos = {"nome":produto.nome,"preco":produto.preco,"tipo":produto.tipo};
 			produtoAPI.verificarProduto(produto.nome,0).success(function(response){
 				console.log(response);
 				if(response){
@@ -365,7 +383,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 		}
 		
 		$scope.editarProduto = function(produto,id){
-			var produtos={"id":id,"nome":produto.nome,"preco":produto.preco}
+			var produtos={"id":id,"nome":produto.nome,"preco":produto.preco,"tipo":produto.tipo}
 			
 			
 			produtoAPI.verificarProduto(produto.nome,id).success(function(response){
@@ -648,58 +666,35 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			});
 		};
 		
-		$scope.salvarVendaProduto = function(quantidade,produto){
-			
-				produtoAPI.salvarVendaProduto(quantidade,produto).success(function(){
+		
+		
+		$scope.salvarVendaMaquina = function(maquina,produto,quantidade){
+			if(maquina != null && maquina != undefined){
+				maquinaAPI.salvarVendaMaquina(maquina.id,quantidade,produto).success(function(){
 					$scope.loading();
 					$scope.saved = true;
 					$scope.isProduto = !$scope.isProduto;
+
 					location.reload();
 
 					$timeout(function(){
 						$scope.listarTemposAtivos();
-					
+				
 						$scope.saved = false;
 						$scope.loadingObj = false;
 
 					},1000);
-					
+				
 				}).error(function(){
 					alert("Não foi possivel salvar a venda do produto");
+
 				})
-			
-			
-		};
-		
-		$scope.salvarVendaMaquina = function(maquina,produto,quantidade){
-			maquinaAPI.salvarVendaMaquina(maquina.id,quantidade,produto).success(function(){
-				$scope.loading();
-				$scope.saved = true;
-				$scope.isProduto = !$scope.isProduto;
-
-				location.reload();
-
-				$timeout(function(){
-					$scope.listarTemposAtivos();
-				
-					$scope.saved = false;
-					$scope.loadingObj = false;
-
-				},1000);
-				
-			}).error(function(){
-				alert("Não foi possivel salvar a venda do produto");
-
-			})
-		};
-		
-		$scope.mudarBtnVenda = function(maqProdSelec){
-			if(maqProdSelec == undefined || maqProdSelec == null){
-				$scope.btnVenda = true;
 			}else{
-				$scope.btnVenda = false;
+				alert("Selecione uma máquina para salvar");
 			}
 		};
+		
+		
 		
 		// listar tempos individuais no modal
 		$scope.listarTempoIndividual = function(numero){
@@ -716,7 +711,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 				
 			});
 		};
-	
+		
 		$scope.listarProdutoIndividual = function(numero){
 			produtoAPI.listarProdutoIndividual(numero).success(function(response){
 				$scope.listaProdutoIndividual = response;
@@ -919,7 +914,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 				$scope.v.minuto = null;	
 				$scope.v.modelo = null;
 				$scope.v.preco = null;
-		
+				$scope.produto.tipo = "";
 		};
 		
 		$scope.enviarMensagem = function(tipo,mensagem){
@@ -954,6 +949,8 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			$cookieStore.put('listaCookie',JSON.stringify($scope.listaVendaTemporaria));
 			$scope.listarCookie();
 			
+			$scope.limpaForm();
+			$scope.listarProduto();
 		};
 		$scope.listarCookie = function(){
 			var resultadoParcial=0;
@@ -976,6 +973,43 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			$scope.listarCookie();
 		};
 		
+		$scope.removerListaVenda = function(indice){
+			if($scope.listaVendaTemporaria.length == 1){
+				$scope.listaVendaTemporaria=[];
+				$cookieStore.remove('listaCookie');
+				$scope.listarCookie();
+			}
+			$scope.listaVendaTemporaria.splice(indice,1);
+			$cookieStore.put('listaCookie',JSON.stringify($scope.listaVendaTemporaria));
+			$scope.listarCookie();
+
+		};
+		
+		$scope.salvarVendaProduto = function(){
+			$scope.listaVendaTemporaria.forEach(function(lvt){
+				var prod ={"id":lvt.id,"nome":lvt.nome,"preco":lvt.preco};
+
+				produtoAPI.salvarVendaProduto(lvt.quantidade,prod).success(function(){
+					$scope.loading();
+					$scope.saved = true;
+					$scope.listaVendaTemporaria=[];
+					$cookieStore.remove('listaCookie');
+					$scope.listarCookie();
+					$timeout(function(){
+					
+						$scope.saved = false;
+						$scope.loadingObj = false;
+
+					},1000);
+					
+				}).error(function(){
+					alert("Não foi possivel salvar a venda do produto");
+				})
+			})
+
+		
+		
+	};
 		// carregar dados para edição nos inputs
 		$scope.carregarEditarProd = function(p){
 			$scope.prod = p;
@@ -991,6 +1025,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 		}
 		$scope.trocarTab = function(booleano){
 			$scope.classeAtiva = booleano;
+			$scope.listarProduto();		
 		};
 		$scope.listasCarregadas= function(){
 			$scope.url = $location.url();
@@ -1001,9 +1036,11 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 				$scope.listarVendas();
 			}else if($scope.url == "/historico-tempos"){
 				$scope.listarTempos();
-			}
-	
-			$scope.listarProduto();
+			}else if($scope.url == "/produto"){
+				$scope.listarProduto();
+			}else if($scope.url != "/produto"){
+				$scope.listarTodosProdutos();			}
+			
 			$scope.listarMaquina();
 			$scope.listarHora();
 		}

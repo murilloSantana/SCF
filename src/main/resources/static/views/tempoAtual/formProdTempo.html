@@ -73,7 +73,7 @@
 
 			<div class="form-group col-md-3">
 				<label> Máquina </label> <select name="" id="" class="form-control"
-					ng-change="mudarBtnVenda(maqProdSelec)" ng-model="maqProdSelec"
+					 ng-model="maqProdSelec"
 					ng-options="lm.numero for lm in listaFiltrada">
 					<option value="">Selecione uma maquina</option>
 				</select>
@@ -103,9 +103,7 @@
 		<div class="input-group">
 			<div class="form-group col-md-4">
 				<button class="btn btn-info"
-					ng-click="salvarVendaProduto(quantidade,selected)" ng-show="btnVenda">Salvar</button>
-				<button class="btn btn-info"
-					ng-click="salvarVendaMaquina(maqProdSelec,selected,quantidade)" ng-hide="btnVenda">Salvar</button>
+					ng-click="salvarVendaMaquina(maqProdSelec,selected,quantidade)" >Salvar</button>
 
 			</div>
 		</div>
