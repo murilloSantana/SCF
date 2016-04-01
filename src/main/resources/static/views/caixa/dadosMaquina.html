@@ -1,0 +1,25 @@
+
+<table class="table table-bordered table-striped table-hover "
+	id="table-caixa">
+	<thead>
+		<tr>
+			<th>Número</th>
+
+			<th>Hora</th>
+			<th>Valor</th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="ltda in listaTemposDA">
+			<td>{{ltda.numero}}</td>
+			<td>{{ltda.horaInicio | date:"HH:mm:ss"}}</td>
+			<td>{{ltda.valor}}</td>
+
+
+		</tr>
+
+	</tbody>
+
+</table>

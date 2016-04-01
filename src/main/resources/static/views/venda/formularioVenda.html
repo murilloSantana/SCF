@@ -7,7 +7,7 @@
 				<div class="form-group col-md-4">
 					<label>Nome</label> <input type="text" ng-model="prodSelec"
 						uib-typeahead="lp as lp.nome for lp in listaProduto | filter:$viewValue | limitTo:8"
-						class="form-control" placeholder="Nome do produto">
+						class="form-control" placeholder="Nome do produto" uppercased>
 				</div>
 
 				<div class="form-group col-md-4">

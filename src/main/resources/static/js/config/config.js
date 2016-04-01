@@ -12,6 +12,7 @@ app.config(function($stateProvider,$urlRouterProvider,$locationProvider){
 	.state("historico-produtos",{url:"/historico-produtos",templateUrl:"views/historico/historico_produtos.html",controller:"controller"})
 	.state("suporte",{url:"/suporte-tecnico",templateUrl:"views/suporte.html",controller:"controller"})
 	.state("venda",{url:"/venda",templateUrl:"views/venda/venda.html",controller:"controller"})
+	.state("caixa",{url:"/caixa",templateUrl:"views/caixa/caixa.html",controller:"controller"})
 
 	$locationProvider.html5Mode(true);
 });

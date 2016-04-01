@@ -37,6 +37,9 @@ app.factory('produtoAPI', function($http) {
 	var _pagamentoVenda = function(idProduto){
 		return $http.put("pagamentoVenda/"+idProduto);
 	};
+	var _listarVendasDA = function(dia,mes,ano){
+		return $http.get("listarVendasDA/"+dia+"/"+mes+"/"+ano);
+	};
 	return {
 		listarProduto : _listarProduto,
 		salvarProduto : _salvarProduto,
@@ -49,6 +52,8 @@ app.factory('produtoAPI', function($http) {
 		excluirProdutoIndividual: _excluirProdutoIndividual,
 		listarVendas: _listarVendas,
 		pagamentoVenda:_pagamentoVenda,
-		listarTodosProdutos:_listarTodosProdutos
+		listarTodosProdutos:_listarTodosProdutos,
+		listarVendasDA: _listarVendasDA
+
 	};
 });

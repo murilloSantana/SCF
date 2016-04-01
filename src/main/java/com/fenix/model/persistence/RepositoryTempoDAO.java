@@ -2,6 +2,7 @@ package com.fenix.model.persistence;
 
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -37,4 +38,7 @@ public interface RepositoryTempoDAO extends CrudRepository<Tempo, Integer> {
 	@Query(value = "SELECT t FROM Tempo t WHERE t.id = :id")
 	public Tempo efetuarPagamentoTempo(@Param("id") Integer id);
 	
+	@Query(value = "SELECT * FROM tempo t WHERE DAY(FROM_UNIXTIME(t.hora_inicio /1000)) = :dia AND MONTH(FROM_UNIXTIME(t.hora_inicio /1000)) = :mes AND YEAR(FROM_UNIXTIME(t.hora_inicio /1000)) = :ano",nativeQuery= true)
+	public List<Tempo> listarTemposDA(@Param("dia") Integer dia,@Param("mes") Integer mes,@Param("ano") Integer ano);
+
 }

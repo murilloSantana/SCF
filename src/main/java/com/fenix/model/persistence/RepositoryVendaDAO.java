@@ -21,5 +21,6 @@ public interface RepositoryVendaDAO extends CrudRepository<Venda, Integer>{
 	public List<Venda> listaConta(@Param("numero") Integer numero);
 	@Query(value = "SELECT v FROM Venda v WHERE v.id = :id")
 	public Venda efetuarPagamentoVenda(@Param("id") Integer id);
-	
+	@Query(value = "SELECT * FROM venda v WHERE DAY(FROM_UNIXTIME(v.dt_venda /1000)) = :dia AND MONTH(FROM_UNIXTIME(v.dt_venda /1000)) = :mes AND YEAR(FROM_UNIXTIME(v.dt_venda /1000)) = :ano",nativeQuery= true)
+	public List<Venda> listarVendasDA(@Param("dia") Integer dia,@Param("mes") Integer mes,@Param("ano") Integer ano);
 }

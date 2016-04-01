@@ -38,12 +38,12 @@ public class ProdutoVendaController {
 	public @ResponseBody List<Produto> listarProduto(@PathVariable("tipo") String tipo) {
 		return produtoDao.listarProduto(tipo);
 	}
-	
+
 	@RequestMapping(value = "listarTodosProdutos", method = RequestMethod.GET)
 	public @ResponseBody List<Produto> listarTOdosProdutos() {
 		return (List<Produto>) produtoDao.findAll();
 	}
-	
+
 	@RequestMapping(value = "excluirProduto/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody void excluirProduto(@PathVariable("id") Integer id) {
 		try {
@@ -53,11 +53,10 @@ public class ProdutoVendaController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-		}finally {
+		} finally {
 			produtoDao.delete(id);
 		}
-		
-		
+
 	}
 
 	@RequestMapping(value = "editarProduto", method = RequestMethod.PUT)
@@ -66,8 +65,8 @@ public class ProdutoVendaController {
 	}
 
 	@RequestMapping(value = "verificarProduto/{nome}/{id}", method = RequestMethod.GET)
-	public @ResponseBody boolean existeProduto(@PathVariable("nome") String nome,@PathVariable("id") Integer id) {
-		List<Produto> produtos = produtoDao.findNome(nome,id);
+	public @ResponseBody boolean existeProduto(@PathVariable("nome") String nome, @PathVariable("id") Integer id) {
+		List<Produto> produtos = produtoDao.findNome(nome, id);
 		boolean existe = false;
 		if (produtos.size() > 0) {
 			existe = true;
@@ -77,7 +76,8 @@ public class ProdutoVendaController {
 	}
 
 	@RequestMapping(value = "salvarVendaProduto/{quantidade}", method = RequestMethod.POST)
-	public @ResponseBody void salvarVendaProduto(@PathVariable("quantidade") Integer quantidade,@RequestBody Produto produto) {
+	public @ResponseBody void salvarVendaProduto(@PathVariable("quantidade") Integer quantidade,
+			@RequestBody Produto produto) {
 		Venda venda = new Venda();
 		venda.setUsada(false);
 		venda.setProduto(produto);
@@ -85,7 +85,7 @@ public class ProdutoVendaController {
 		venda.setDtVenda(date.getTime());
 		venda.setPreco(produto.getPreco());
 		venda.setQuantidade(quantidade);
-		venda.setPrecoTotal(venda.getPreco()*venda.getQuantidade());
+		venda.setPrecoTotal(venda.getPreco() * venda.getQuantidade());
 		venda.setNomeProduto(produto.getNome());
 		vendaDao.save(venda);
 	}
@@ -102,33 +102,42 @@ public class ProdutoVendaController {
 		venda.setMaquina(maquina);
 		venda.setPreco(produto.getPreco());
 		venda.setQuantidade(quantidade);
-		venda.setPrecoTotal(venda.getPreco()*venda.getQuantidade());
+		venda.setPrecoTotal(venda.getPreco() * venda.getQuantidade());
 		venda.setNomeProduto(produto.getNome());
 		venda.setNumeroMaquina(maquina.getNumero());
 		vendaDao.save(venda);
 	}
-	
+
 	@RequestMapping(value = "listarProdutoIndividual/{numero}", method = RequestMethod.GET)
-	public @ResponseBody List<Tempo> menorTempoAtivo(@PathVariable("numero") Integer numero){
+	public @ResponseBody List<Tempo> menorTempoAtivo(@PathVariable("numero") Integer numero) {
 		return vendaDao.listarProdutoIndividual(numero);
 	}
+
 	@RequestMapping(value = "salvarProdutoEditado", method = RequestMethod.PUT)
-	public void salvarProdutoEditado(@RequestBody Venda venda){
+	public void salvarProdutoEditado(@RequestBody Venda venda) {
 		vendaDao.save(venda);
 	}
+
 	@RequestMapping(value = "excluirProdutoIndividual/{id}", method = RequestMethod.DELETE)
-	public void excluirProdutoIndividual(@PathVariable("id") Integer id){
+	public void excluirProdutoIndividual(@PathVariable("id") Integer id) {
 		vendaDao.delete(id);
 	}
+
 	@RequestMapping(value = "listarVendas", method = RequestMethod.GET)
-	public @ResponseBody List<Venda> listarVendas(){
+	public @ResponseBody List<Venda> listarVendas() {
 		return (List<Venda>) vendaDao.findAll();
 	}
-	
+
 	@RequestMapping(value = "pagamentoVenda/{idProduto}", method = RequestMethod.PUT)
 	public void pagamentoVenda(@PathVariable("idProduto") Integer idProduto) {
 		Venda venda = vendaDao.efetuarPagamentoVenda(idProduto);
-			venda.setPago(true);
-			vendaDao.save(venda);
+		venda.setPago(true);
+		vendaDao.save(venda);
 	}
- }
+
+	@RequestMapping(value = "listarVendasDA/{dia}/{mes}/{ano}", method = RequestMethod.GET)
+	public @ResponseBody List<Venda> listarVendasDA(@PathVariable("dia") Integer dia, @PathVariable("mes") Integer mes,
+			@PathVariable("ano") Integer ano) {
+		return vendaDao.listarVendasDA(dia,mes,ano);
+	}
+}

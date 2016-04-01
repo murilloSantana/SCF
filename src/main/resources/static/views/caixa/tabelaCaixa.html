@@ -1,0 +1,25 @@
+<div class="panel panel-primary caixa-tabela">
+  <div class="panel-heading">Fluxo do Caixa</div>
+  <div class="panel-body">
+ 
+
+
+		<div class="">
+			<ul class="nav nav-tabs">
+  				<li role="presentation" ng-class="{active:ativa==1}"><a href="#" ng-click="tabAtivo(1)">Retiradas</a></li>
+  				<li role="presentation" ng-class="{active:ativa==2}"><a href="#" ng-click="tabAtivo(2)">Maquina</a></li>
+  				<li role="presentation" ng-class="{active:ativa==3}"><a href="#" ng-click="tabAtivo(3)">Produtos</a></li>
+			</ul>
+		</div>
+
+
+	
+			<ng-include src="'/SCF/views/caixa/dadosRetirada.html'" ng-if="ativa==1"></ng-include>
+			<ng-include src="'/SCF/views/caixa/dadosMaquina.html'" ng-if="ativa==2"></ng-include>
+			<ng-include src="'/SCF/views/caixa/dadosProduto.html'" ng-if="ativa==3"></ng-include>
+
+
+
+<img class="carregando" ng-show="carregando" src="img/carregando.gif" />
+ </div>
+</div>

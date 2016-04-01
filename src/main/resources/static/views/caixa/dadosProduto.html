@@ -1,0 +1,24 @@
+
+<table class="table table-bordered table-striped table-hover "
+	id="table-caixa">
+	<thead>
+		<tr>
+			<th>Nome</th>
+			<th>Quantidade</th>
+			<th>Valor</th>
+			<th>Hora da Venda</th>
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="lvda in listaVendasDA">
+			<td>{{lvda.nomeProduto}}</td>
+			<td>{{lvda.quantidade}}</td>
+			<td>{{lvda.preco}}</td>
+			<td>{{lvda.dtVenda | date:"HH:mm:ss"}}</td>
+
+		</tr>
+
+	</tbody>
+
+</table>

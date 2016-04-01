@@ -23,6 +23,8 @@
 
 <script src="js/controllers/controller.js"></script>
 
+<script src="js/directives/upper.js"></script>
+
 
 <script src="js/config/config.js"></script>
 

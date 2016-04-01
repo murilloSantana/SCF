@@ -1,0 +1,25 @@
+<div class="caixa">
+	<div class="row">
+
+		<div class="col-md-3">
+			<img src='http://image005.flaticon.com/1/svg/57/57425.svg' />
+		</div>
+
+	</div>
+
+	<div class="row ">
+		<div class="input-group col-md-4 ">
+			
+				<span class="input-group-addon" id="add-cifrao" ng-hide="caixaFechado">R$</span> <input
+					class="form-control " aria-describedby="add-cifrao" ng-hide="caixaFechado"/>
+			
+			
+			<div class="input-group-btn">
+				<button class="btn btn-primary" ng-hide="caixaFechado" ng-click="statusCaixa()">Abrir Caixa</button>
+				<button class="btn btn-primary btn-block" ng-show="caixaFechado" ng-click="statusCaixa()">Fechar Caixa</button>
+
+			</div>
+		</div>
+
+	</div>
+</div>

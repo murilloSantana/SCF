@@ -134,6 +134,14 @@ main ul li .dropdown-menu li:hover {
 	box-shadow: 1px 1px 1px black;
 }
 
+#table-caixa{
+	width: 95%;
+	float: right;
+	margin-right: 5%;
+	box-shadow: 1px 1px 1px black;
+	margin-top: 0.5%;
+}
+
 .carregando {
 	margin-top: 6%;
 	margin-right: 35%;
@@ -270,4 +278,33 @@ input{
 	margin-top: 1%;
 }
 
+.tabs-produto li{
+	background-color:#d6d6d6;	
+}
 
+.caixa{
+	width: 55%;
+	float: right;
+	margin-top: 2%;
+}
+
+.caixa img{
+	max-height: 250px;
+	margin-bottom: 5%;
+}
+
+.caixa-tabela{
+	width: 70%;
+	float: right;
+	margin: 0 auto;
+	margin-right: 5%;
+	margin-top: 4%;
+}
+
+.caixa-tabela ul li{
+	background-color:#d6d6d6;
+}
+
+.caixa .input-group{
+	margin-left: -3%;
+}

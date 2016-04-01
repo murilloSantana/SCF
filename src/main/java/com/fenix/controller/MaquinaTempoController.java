@@ -61,7 +61,8 @@ public class MaquinaTempoController {
 
 	@RequestMapping(value = "listarMaquina", method = RequestMethod.GET)
 	public @ResponseBody List<Maquina> listaMaquina() {
-		return (List<Maquina>) maquinaDao.findAll();
+		
+		return maquinaDao.listarTodos();
 	}
 
 	@RequestMapping(value = "editarMaquina", method = RequestMethod.PUT)
@@ -169,7 +170,7 @@ public class MaquinaTempoController {
 	public @ResponseBody List<Tempo> listarTemposAtivos() {
 		return tempoDao.temposAtivos();
 	}
-
+	
 	@RequestMapping(value = "excluirTemposAtivos/{numero}", method = RequestMethod.GET)
 	public @ResponseBody void excluirTemposAtivos(@PathVariable("numero") Integer numero) {
 		try {
@@ -277,5 +278,9 @@ public class MaquinaTempoController {
 			tempo.setPago(true);
 			tempoDao.save(tempo);
 	}
-	
+	@RequestMapping(value = "listarTemposDA/{dia}/{mes}/{ano}", method = RequestMethod.GET)
+	public @ResponseBody List<Tempo> listarTemposDA(@PathVariable("dia") Integer dia, @PathVariable("mes") Integer mes,
+			@PathVariable("ano") Integer ano) {
+		return tempoDao.listarTemposDA(dia,mes,ano);
+	}
 }
