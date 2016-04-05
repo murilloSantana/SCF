@@ -1,0 +1,32 @@
+$scope.excluirTempoHistorico = function(id){
+			tempoAPI.excluirTempoIndividual(id).success(function(){
+				$scope.listarTempos();
+				$scope.loadingObj = true;
+				$scope.drop = true;
+				
+				$timeout(function(){
+					$scope.drop = false;
+					$scope.loadingObj = false;
+				},1000);	
+			}).error(function(){
+				alert("não foi possivel excluir o tempo");
+			});
+		};
+		
+		$scope.excluirProdutoHistorico = function(id){
+			$scope.loadingObj = true;
+			produtoAPI.excluirProdutoIndividual(id).success(function(){
+				$scope.listarVendas();
+				$scope.drop = true;
+				$timeout(function(){
+
+					
+					$scope.drop = false;
+					$scope.loadingObj = false;
+
+				},1000);
+			}).error(function(){
+				alert("não foi possivel excluir a venda")
+			});
+		};
+		

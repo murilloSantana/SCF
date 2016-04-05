@@ -20,6 +20,7 @@
 <script src="js/services/produtoService.js"></script>
 <script src="js/services/valorHoraService.js"></script>
 <script src="js/services/tempoService.js"></script>
+<script src="js/services/caixaService.js"></script>
 
 <script src="js/controllers/controller.js"></script>
 

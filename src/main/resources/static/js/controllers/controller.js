@@ -1,4 +1,4 @@
-app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAPI,valorHoraAPI,tempoAPI,$timeout,$interval,$compile,$cookieStore)
+app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAPI,valorHoraAPI,tempoAPI,caixaAPI,$timeout,$interval,$compile,$cookieStore)
 {
 	$scope.isProduto = false;
 	$scope.isTempo = false;
@@ -15,6 +15,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 	$scope.classeAtive=false;
 	$scope.caixaFechado= false;
 	$scope.ativa = 1;
+	$scope.tipoMovimentacao=["Retirada","Depósito"];
 
 	$scope.tipoProduto=["Produto","Serviço"];
 		// listas
@@ -40,6 +41,7 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 		$scope.produto = {};
 		$scope.maquina = {};
 		$scope.modelo={};
+		$scope.movimentacao={};
 		// $scope.selected={};
 		// $scope.quantidade={};
 
@@ -926,6 +928,11 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			$scope.v.modelo = null;
 			$scope.v.preco = null;
 			$scope.produto.tipo = "";
+			$scope.movimentacao.tipo=null;
+
+			$scope.movimentacao.valor=null;
+			$scope.movimentacao.motivo=null;
+			
 		};
 		
 		$scope.enviarMensagem = function(tipo,mensagem){
@@ -1027,19 +1034,39 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 	$scope.listarVendaDA = function(){
 		var data = new Date();
 		produtoAPI.listarVendasDA(data.getDate(),data.getMonth()+1,data.getFullYear()).success(function(response){
-			$scope.listaVendasDA = response;
+			$scope.loading();
+
+			$timeout(function(){
+				$scope.listaVendasDA = response;
+				$scope.carregando = false;
+
+				$scope.loadingObj = false;
+
+			},1000);
+			
 		});
 	};
 	// método para listar tempos do dia atual
 	$scope.listarTempoDA = function(){
 		var data = new Date();
 		tempoAPI.listarTemposDA(data.getDate(),data.getMonth()+1,data.getFullYear()).success(function(response){
-			$scope.listaTemposDA = response;
+			$scope.loading();
+
+			$timeout(function(){
+				$scope.listaTemposDA = response;
+				$scope.carregando = false;
+
+				$scope.loadingObj = false;
+
+			},1000);
+			
 		});
 	};
 	
 	$scope.tabAtivo = function(ativa){
-		if(ativa == 2){
+		if(ativa == 1){
+			$scope.listarMovimentacao();
+		}else if(ativa == 2){
 			$scope.listarTempoDA();
 		}else if(ativa == 3){
 			$scope.listarVendaDA();
@@ -1066,9 +1093,73 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 			$scope.classeAtiva = booleano;
 			$scope.listarProduto();		
 		};
-		$scope.statusCaixa = function(){
-			$scope.abrirCaixa = !$scope.abrirCaixa;
+		
+		$scope.listarMovimentacao = function(){
+			var data = new Date();
+			caixaAPI.listarMovimentacao(data.getDate(),data.getMonth()+1,data.getFullYear()).success(function(response){
+				$scope.loading();
+
+				$timeout(function(){
+					$scope.listaMovimentacao = response;
+					$scope.carregando = false;
+
+					$scope.loadingObj = false;
+
+				},1000);
+			});
 		};
+		
+		$scope.salvarMovimentacao = function(movimentacao){
+			if(movimentacao.tipo == "Retirada"){
+				movimentacao.valor = movimentacao.valor * -1
+			}
+			
+			caixaAPI.salvarMovimentacao(movimentacao).success(function(){
+				$scope.limpaForm();
+				$scope.listarMovimentacao();
+				$scope.calcularFluxoCaixa();
+			}).error(function(status){
+				console.log(status);
+			})
+		};
+		$scope.calcularFluxoCaixa = function(){
+			var data = new Date();
+			var dia = data.getDate();
+			var mes = data.getMonth()+1;
+			var ano = data.getFullYear();
+			$scope.listaSomaCaixa=[];
+			produtoAPI.listarVendasDA(dia,mes,ano).success(function(response){
+				$scope.listaVendasDA = response;
+				$scope.somaVenda =0;
+				$scope.listaVendasDA.forEach(function(lv){
+					$scope.somaVenda += lv.precoTotal;
+				});
+				$scope.listaSomaCaixa["venda"]=$scope.somaVenda;
+			});
+			
+			tempoAPI.listarTemposDA(dia,mes,ano).success(function(response){
+				$scope.listaTemposDA = response;
+				$scope.somaTempo=0;
+				$scope.listaTemposDA.forEach(function(lt){
+					$scope.somaTempo += lt.valor;
+				});
+				$scope.listaSomaCaixa["tempo"]=$scope.somaTempo;
+				
+			});
+			
+			caixaAPI.listarMovimentacao(dia,mes,ano).success(function(response){
+				$scope.listaMovimentacao = response;
+				$scope.somaMovimentacao = 0;
+				$scope.listaMovimentacao.forEach(function(lm){
+					$scope.somaMovimentacao += lm.valor;
+				});
+				$scope.listaSomaCaixa["movimentacao"]=$scope.somaMovimentacao;
+
+			})
+			
+			console.log($scope.listaSomaCaixa);
+		};
+		
 		$scope.listasCarregadas= function(){
 			$scope.url = $location.url();
 
@@ -1080,8 +1171,11 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 				$scope.listarTempos();
 			}else if($scope.url == "/produto"){
 				$scope.listarProduto();
+			}else if($scope.url == "/caixa"){
+				$scope.calcularFluxoCaixa();
 			}
 			
+			$scope.listarMovimentacao();
 			$scope.listarTodosProdutos();	
 			$scope.listarMaquina();
 			$scope.listarHora();
@@ -1090,5 +1184,5 @@ app.controller("controller",function($scope,$http,$location,maquinaAPI,produtoAP
 		$scope.listarCookie();
 		$scope.listasCarregadas();
 		
-	});
+});
 

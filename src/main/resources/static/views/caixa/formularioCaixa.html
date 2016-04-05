@@ -4,14 +4,14 @@
 		<div class="col-md-3">
 			<img src='http://image005.flaticon.com/1/svg/57/57425.svg' />
 		</div>
-
+		
 	</div>
 
 	<div class="row ">
-		<div class="input-group col-md-4 ">
+		<div class="input-group col-md-5 ">
 			
-				<span class="input-group-addon" id="add-cifrao" ng-hide="caixaFechado">R$</span> <input
-					class="form-control " aria-describedby="add-cifrao" ng-hide="caixaFechado"/>
+			<span class="input-group-addon" id="add-cifrao" ng-hide="caixaFechado">R$</span> <input
+			class="form-control " aria-describedby="add-cifrao" ng-hide="caixaFechado"/>
 			
 			
 			<div class="input-group-btn">
@@ -21,5 +21,39 @@
 			</div>
 		</div>
 
+	</div>
+	<div class="col-md-7  pull-right valores-caixa">
+		<div class="panel panel-primary">
+			<div class="panel-heading">Fluxo do Caixa</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Tipo</th>
+						<th>Valor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Produto</td>
+						<td>{{listaSomaCaixa['venda']}}</td>
+					</tr>
+					<tr>
+						<td>Máquina</td>
+						<td>{{listaSomaCaixa['tempo']}}</td>
+					</tr>
+					<tr>
+						<td>Movimentação </td>
+						<td>{{listaSomaCaixa['movimentacao']}}</td>
+					</tr>
+				</tbody>
+				
+				<tfoot >
+				
+						<th>Total</th>	
+						<th>{{listaSomaCaixa['venda']+listaSomaCaixa['tempo']+listaSomaCaixa['movimentacao']}}</th>
+					
+				</tfoot>
+			</table>
+		</div>
 	</div>
 </div>

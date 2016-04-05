@@ -308,3 +308,22 @@ input{
 .caixa .input-group{
 	margin-left: -3%;
 }
+
+.caixa-tabela .nav-tabs a{
+	color:#0080ff;
+}
+
+.caixa-tabela .btn-add{
+	margin-top:2.7%;
+}
+#form-movimentacao{
+	margin-top: 1%;
+}
+
+.valores-caixa{
+	margin-top: -42%;
+}
+
+.caixa .valores-caixa tfoot{
+	background-color:#93DDEC;
+}

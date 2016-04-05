@@ -1,0 +1,43 @@
+<div id="form-movimentacao">
+	<div class="form-group col-md-4">
+		<label>Motivo</label> <input type="text" class="form-control"
+			placeholder="o motivo da movimentação" ng-model="movimentacao.motivo"></input>
+	</div>
+	<div class="form-group col-md-4">
+		<label>Tipo</label> <select class="form-control"
+			ng-model="movimentacao.tipo"
+			ng-options="tm for tm in tipoMovimentacao">
+			<option value="">Selecione a Movimentação</option>
+		</select>
+	</div>
+	<div class="form-group col-md-2">
+		<label>Valor</label> <input type="text" class="form-control"
+			placeholder="valor" ng-model="movimentacao.valor"></input>
+	</div>
+	<div class="form-group col-md-2 btn-add">
+		<button class="btn btn-primary" ng-click="salvarMovimentacao(movimentacao)">Salvar</button>
+	</div>
+</div>
+<table class="table table-bordered table-striped table-hover "
+	id="table-caixa">
+	<thead>
+		<tr>
+			<th>Motivo</th>
+			<th>Tipo</th>
+			<th>Hora</th>
+			<th>Valor</th>
+
+		</tr>
+	</thead>
+	<tbody>
+
+		<tr ng-repeat="lm in listaMovimentacao">
+			<td>{{lm.motivo}}</td>
+			<td>{{lm.tipo}}</td>
+			<td>{{lm.dtMovimentacao | date:"HH:mm:ss"}}</td>
+			<td>{{lm.valor}}</td>
+		</tr>
+
+	</tbody>
+
+</table>
